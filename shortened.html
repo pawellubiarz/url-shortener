@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>URL Shortened</title>
+</head>
+<body>
+	<h1>Your Shortened URL</h1>
+	<p>Here is your shortened URL: <a href="{{ short_url }}" target="_blank">{{ short_url }}</a></p>
+	<button onclick="navigator.clipboard.writeText('{{ short_url }}')">Copy to Clipboard</button>
+	<a href="/">Shorten another URL</a>
+</body>
+</html>

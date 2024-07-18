@@ -23,16 +23,13 @@ def index():
 
 @app.route('/shorten', methods=['POST'])
 def shorten_url():
-    original_url = request.form['original_url']
-    # Generate a short code (you'll need to implement this)
-    short_code = generate_short_code(original_url)  # Placeholder
-    # Store the URL and short code in the database
-    conn = database.create_connection(DATABASE)
-    if conn:
-        url_id = database.insert_url(conn, original_url, short_code)
-        database.close_connection(conn)
-    # Redirect to the shortened URL
-    return redirect(url_for('shortened_url', short_code=short_code))
+    original_url = request.form['original_url']  # Ensure this matches your form input's name attribute
+    short_code = generate_short_code()
+    # Assuming you have a function in the 'database' module to insert URLs
+    database.insert_url(conn, original_url, short_code)
+    # Construct the short URL
+    short_url = request.host_url + short_code
+    return render_template('shortened.html', short_url=short_url)
 
 @app.route('/<short_code>')
 def shortened_url(short_code):
@@ -65,7 +62,7 @@ def is_short_code_in_use(short_code):
         cur.execute(sql, (short_code,))
         row = cur.fetchone()
         database.close_connection(conn)
-        return bool(row)
+        return bool(row)brew install python
 
 
 if __name__ == '__main__':
